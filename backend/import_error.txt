@@ -1,0 +1,31 @@
+Attempting to import app.worker...
+Traceback (most recent call last):
+  File "D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\check_langchain.py", line 7, in <module>
+    from app.worker import process_document
+  File "D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\worker.py", line 7, in <module>
+    from app.services.ocr import extract_text
+  File "D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\services\ocr.py", line 5, in <module>
+    from paddleocr import PaddleOCR
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddleocr\__init__.py", line 15, in <module>
+    from paddlex.inference.utils.benchmark import benchmark
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\__init__.py", line 49, in <module>
+    from .inference import create_pipeline, create_predictor
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\__init__.py", line 17, in <module>
+    from .pipelines import create_pipeline, load_pipeline_config
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\__init__.py", line 23, in <module>
+    from .attribute_recognition import (
+    ...<2 lines>...
+    )
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\attribute_recognition\__init__.py", line 15, in <module>
+    from .pipeline import PedestrianAttributeRecPipeline, VehicleAttributeRecPipeline
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\attribute_recognition\pipeline.py", line 27, in <module>
+    from ..components import CropByBoxes
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\components\__init__.py", line 29, in <module>
+    from .retriever.base import BaseRetriever
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\components\retriever\__init__.py", line 15, in <module>
+    from .openai_bot_retriever import OpenAIBotRetriever
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\components\retriever\openai_bot_retriever.py", line 16, in <module>
+    from .base import BaseRetriever
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddlex\inference\pipelines\components\retriever\base.py", line 25, in <module>
+    from langchain.docstore.document import Document
+ModuleNotFoundError: No module named 'langchain.docstore'

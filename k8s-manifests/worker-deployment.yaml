@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idp-celery-worker
+  labels:
+    app: celery-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: celery-worker
+  template:
+    metadata:
+      labels:
+        app: celery-worker
+    spec:
+      containers:
+      - name: celery-worker
+        image: idp-backend:latest
+        imagePullPolicy: Never
+        command: ["celery"]
+        args: ["-A", "app.core.celery_app", "worker", "--loglevel=info", "-Q", "main-queue"]
+        env:
+        - name: POSTGRES_HOST
+          value: "idp-postgres"
+        - name: REDIS_HOST
+          value: "idp-redis"
+        - name: OLLAMA_BASE_URL
+          value: "http://host.minikube.internal:11434"
+        resources:
+          limits:
+            nvidia.com/gpu: 1 # Requests access to host GPU via nvidia-device-plugin

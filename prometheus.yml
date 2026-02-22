@@ -1,0 +1,14 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'fastapi-backend'
+    static_configs:
+      - targets: ['idp_backend_prod:8000']
+    metrics_path: '/metrics' # Note: Requires adding prometheus-fastapi-instrumentator to backend
+  - job_name: 'celery-worker'
+    static_configs:
+      - targets: ['idp_celery_worker_prod:8000'] # Assuming celery exporter is exposed here
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['idp_redis_prod:6379'] # Assuming redis exporter is deployed alongside

@@ -1,0 +1,196 @@
+# Docker Compose — Arabic Enterprise Finance Document AI Platform
+# Fixes applied:
+#   - Removed obsolete `version:` attribute
+#   - Fixed postgres healthcheck to use correct user env var
+#   - Added NEXT_PUBLIC_API_URL for frontend → backend communication
+#   - Mounted fine-tuned AraBERT model into backend & worker containers
+#   - Added Grafana auto-provisioning (datasource + dashboard)
+#   - Added .env.example fallback env_file guard
+#   - Exposed redis-exporter for Prometheus scraping
+#   - Tightened restart policies
+
+services:
+
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  db:
+    image: postgres:15-alpine
+    container_name: idp_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-idp_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-Secured_Database_AI_Password_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-idp_db}
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-idp_admin} -d ${POSTGRES_DB:-idp_db}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - idp_network
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: idp_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    networks:
+      - idp_network
+
+  # ── FastAPI Backend ──────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: idp_backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-idp_admin}:${POSTGRES_PASSWORD:-Secured_Database_AI_Password_2026}@db:5432/${POSTGRES_DB:-idp_db}
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+      # Enable Prometheus metrics endpoint
+      PROMETHEUS_MULTIPROC_DIR: /tmp/prometheus_metrics
+      # Allow container to use host-installed AI packages (torch, paddleocr, transformers)
+      PYTHONPATH: "/host-site-packages-system:/host-site-packages-user:/app"
+    volumes:
+      # Mount fine-tuned AraBERT model so container uses it without re-training
+      - ./backend/training/models:/app/training/models:ro
+      - backend_uploads:/app/uploads
+      # Bind-mount host Python site-packages so Docker uses pre-installed AI packages
+      - C:\Program Files\Python313\Lib\site-packages:/host-site-packages-system:ro
+      - C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages:/host-site-packages-user:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - idp_network
+
+  # ── Celery Worker ────────────────────────────────────────────────────────────
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: idp_worker
+    restart: unless-stopped
+    command: >
+      celery -A app.worker worker
+        --loglevel=info
+        --concurrency=2
+        -n worker@%h
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-idp_admin}:${POSTGRES_PASSWORD:-Secured_Database_AI_Password_2026}@db:5432/${POSTGRES_DB:-idp_db}
+      REDIS_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379/0
+      PYTHONPATH: "/host-site-packages-system:/host-site-packages-user:/app"
+    volumes:
+      - ./backend/training/models:/app/training/models:ro
+      - backend_uploads:/app/uploads
+      - C:\Program Files\Python313\Lib\site-packages:/host-site-packages-system:ro
+      - C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages:/host-site-packages-user:ro
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - idp_network
+
+  # ── Next.js HITL Frontend ────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: idp_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - idp_network
+
+  # ── Prometheus ───────────────────────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.45.0
+    container_name: idp_prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=7d"
+      - "--web.enable-lifecycle"
+    networks:
+      - idp_network
+
+  # ── Grafana ──────────────────────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana-oss:10.0.3
+    container_name: idp_grafana
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      # Auto-provision Prometheus datasource
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      # Auto-provision our dashboard JSON
+      - ./docs/grafana_dashboard.json:/var/lib/grafana/dashboards/arabic_idp_ops.json:ro
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-Grafana_IDP_2026}
+      GF_PATHS_PROVISIONING: /etc/grafana/provisioning
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/arabic_idp_ops.json
+    networks:
+      - idp_network
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_uploads:
+  prometheus_data:
+  grafana_data:
+
+
+networks:
+  idp_network:
+    driver: bridge

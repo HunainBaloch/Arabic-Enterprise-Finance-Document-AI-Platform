@@ -1,0 +1,41 @@
+# Dependency directories
+node_modules/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Build and Next.js outputs
+frontend/.next/
+frontend/out/
+*.db
+backend/idp.db
+
+# Environment variables
+.env
+.env.local
+
+# Synthetic data and models (Large files should not be committed)
+backend/training/data/*.conll
+backend/training/models/
+backend/uploads/
+
+# Docker volumes and persistent data
+postgres_data/
+redis_data/
+prometheus_data/
+grafana_data/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
