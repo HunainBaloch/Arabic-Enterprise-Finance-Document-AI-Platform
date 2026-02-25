@@ -13,6 +13,8 @@ RUN apt-get update && \
     gcc \
     libpq-dev \
     poppler-utils \
+    tesseract-ocr \
+    tesseract-ocr-ara \
     libgl1 \
     libglib2.0-0 \
     curl \

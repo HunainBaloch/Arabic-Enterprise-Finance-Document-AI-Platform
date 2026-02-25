@@ -1,6 +1,4 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+const nextConfig: any = {
   output: "standalone",
   env: {
     // Inside Docker the backend is reachable via service name
