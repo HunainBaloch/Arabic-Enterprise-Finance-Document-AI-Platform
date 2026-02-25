@@ -15,8 +15,8 @@ httpx==0.27.0
 alembic==1.13.1
 opencv-python-headless>=4.9.0.80
 numpy>=1.26.0
-paddlepaddle>=3.0.0
-paddleocr>=2.7.3
+pytesseract>=0.3.10
+Pillow>=10.0.0
 torch>=2.3.0
 transformers>=4.40.1
 pdf2image>=1.17.0

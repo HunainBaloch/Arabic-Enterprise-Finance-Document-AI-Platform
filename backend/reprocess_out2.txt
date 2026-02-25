@@ -1,0 +1,180 @@
+﻿python : C:\Users\Dell\AppData\Roaming\Python\Python313\si
+te-packages\requests\__init__.py:113: 
+RequestsDependencyWarning: urllib3 (2.6.3) or chardet 
+(6.0.0dev0)/charset_normalizer (3.4.1) doesn't match a 
+supported version!
+At line:1 char:32
++ $env:PYTHONIOENCODING="utf-8"; python reprocess.py 2>&1 
+| Out-File -E ...
++                                ~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (C:\Users\Del 
+   l\A...ported version!:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  warnings.warn(
+[33mChecking connectivity to the model hosters, this may 
+take a while. To bypass this check, set 
+`PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK` to `True`.[0m
+INFO: Could not find files for the given pattern(s).
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packag
+es\paddle\utils\cpp_extension\extension_utils.py:712: 
+UserWarning: No ccache found. Please be aware that 
+recompiling all source files may be required. You can 
+download and install ccache from: https://github.com/ccach
+e/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+[32mCreating model: ('PP-LCNet_x1_0_doc_ori', None)[0m
+[32mModel files already exist. Using cached files. To 
+redownload, please delete the directory manually: `C:\User
+s\Dell\.paddlex\official_models\PP-LCNet_x1_0_doc_ori`.[0
+m
+WARNING: Logging before InitGoogleLogging() is written to 
+STDERR
+I0222 22:30:06.207899 12580 onednn_context.cc:81] oneDNN 
+v3.6.2
+[32mCreating model: ('UVDoc', None)[0m
+[32mModel files already exist. Using cached files. To 
+redownload, please delete the directory manually: 
+`C:\Users\Dell\.paddlex\official_models\UVDoc`.[0m
+[32mCreating model: ('PP-LCNet_x1_0_textline_ori', 
+None)[0m
+[32mModel files already exist. Using cached files. To 
+redownload, please delete the directory manually: `C:\User
+s\Dell\.paddlex\official_models\PP-LCNet_x1_0_textline_ori
+`.[0m
+[32mCreating model: ('PP-OCRv5_server_det', None)[0m
+[32mModel files already exist. Using cached files. To 
+redownload, please delete the directory manually: `C:\User
+s\Dell\.paddlex\official_models\PP-OCRv5_server_det`.[0m
+[32mCreating model: ('arabic_PP-OCRv5_mobile_rec', 
+None)[0m
+[32mModel files already exist. Using cached files. To 
+redownload, please delete the directory manually: `C:\User
+s\Dell\.paddlex\official_models\arabic_PP-OCRv5_mobile_rec
+`.[0m
+2026-02-22 22:30:19,049 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2026-02-22 22:30:19,049 INFO sqlalchemy.engine.Engine [raw sql] ()
+[2026-02-22 22:30:19,049] [    INFO] base.py:1846 - 
+select pg_catalog.version()
+[2026-02-22 22:30:19,049] [    INFO] base.py:1846 - [raw 
+sql] ()
+2026-02-22 22:30:19,052 INFO sqlalchemy.engine.Engine select current_schema()
+[2026-02-22 22:30:19,052] [    INFO] base.py:1846 - 
+select current_schema()
+2026-02-22 22:30:19,052 INFO sqlalchemy.engine.Engine [raw sql] ()
+[2026-02-22 22:30:19,052] [    INFO] base.py:1846 - [raw 
+sql] ()
+2026-02-22 22:30:19,055 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2026-02-22 22:30:19,055 INFO sqlalchemy.engine.Engine [raw sql] ()
+[2026-02-22 22:30:19,055] [    INFO] base.py:1846 - show 
+standard_conforming_strings
+[2026-02-22 22:30:19,055] [    INFO] base.py:1846 - [raw 
+sql] ()
+2026-02-22 22:30:19,057 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+[2026-02-22 22:30:19,057] [    INFO] base.py:2710 - BEGIN 
+(implicit)
+2026-02-22 22:30:19,062 INFO sqlalchemy.engine.Engine SELECT document.id, document.filename, document.original_path, document.mime_type, document.file_size, document.uploader_id, document.status, document.extracted_data, document.confidence_score, document.created_at, document.updated_at 
+FROM document 
+WHERE document.status = $1::documentstatus
+[2026-02-22 22:30:19,062] [    INFO] base.py:1846 - 
+SELECT document.id, document.filename, 
+document.original_path, document.mime_type, 
+document.file_size, document.uploader_id, 
+document.status, document.extracted_data, 
+document.confidence_score, document.created_at, 
+document.updated_at 
+FROM document 
+2026-02-22 22:30:19,062 INFO sqlalchemy.engine.Engine [generated in 0.00025s] ('PREPROCESSING',)
+WHERE document.status = $1::documentstatus
+[2026-02-22 22:30:19,062] [    INFO] base.py:1846 - 
+[generated in 0.00025s] ('PREPROCESSING',)
+Found 14 document(s) stuck in PREPROCESSING
+
+Processing document: invoice_2001321.pdf  id=34b2bb94-ee09-4cee-a045-78469eac6b3f
+Starting pipeline...
+2026-02-22 22:30:19,084 INFO sqlalchemy.engine.Engine ROLLBACK
+[2026-02-22 22:30:19,084] [    INFO] base.py:2713 - 
+ROLLBACK
+2026-02-22 22:30:19,085 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+[2026-02-22 22:30:19,085] [    INFO] base.py:2710 - BEGIN 
+(implicit)
+2026-02-22 22:30:19,086 INFO sqlalchemy.engine.Engine SELECT document.id, document.filename, document.original_path, document.mime_type, document.file_size, document.uploader_id, document.status, document.extracted_data, document.confidence_score, document.created_at, document.updated_at 
+FROM document 
+WHERE document.id = $1::UUID
+2026-02-22 22:30:19,086 INFO sqlalchemy.engine.Engine [generated in 0.00026s] (UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'),)
+[2026-02-22 22:30:19,086] [    INFO] base.py:1846 - 
+SELECT document.id, document.filename, 
+document.original_path, document.mime_type, 
+document.file_size, document.uploader_id, 
+document.status, document.extracted_data, 
+document.confidence_score, document.created_at, 
+document.updated_at 
+FROM document 
+WHERE document.id = $1::UUID
+[2026-02-22 22:30:19,086] [    INFO] base.py:1846 - 
+[generated in 0.00026s] 
+(UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'),)
+2026-02-22 22:30:19,090 INFO sqlalchemy.engine.Engine UPDATE document SET status=$1::documentstatus, updated_at=$2::TIMESTAMP WITH TIME ZONE WHERE document.id = $3::UUID
+[2026-02-22 22:30:19,090] [    INFO] base.py:1846 - 
+UPDATE document SET status=$1::documentstatus, 
+updated_at=$2::TIMESTAMP WITH TIME ZONE WHERE document.id 
+= $3::UUID
+2026-02-22 22:30:19,090 INFO sqlalchemy.engine.Engine [generated in 0.00026s] ('OCR_EXTRACTION', datetime.datetime(2026, 2, 22, 17, 30, 19, 90414, tzinfo=datetime.timezone.utc), UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'))
+[2026-02-22 22:30:19,090] [    INFO] base.py:1846 - 
+[generated in 0.00026s] ('OCR_EXTRACTION', 
+datetime.datetime(2026, 2, 22, 17, 30, 19, 90414, 
+tzinfo=datetime.timezone.utc), 
+UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'))
+[2026-02-22 22:30:19,095] [    INFO] base.py:2716 - COMMIT
+2026-02-22 22:30:19,095 INFO sqlalchemy.engine.Engine COMMIT
+[2026-02-22 22:30:19,097] [    INFO] ocr.py:51 - Running 
+OCR on uploads\invoice_2001321.pdf
+[2026-02-22 22:30:19,101] [   ERROR] ocr.py:85 - OCR 
+Failed for uploads\invoice_2001321.pdf: Unable to get 
+page count. Is poppler installed and in PATH?
+[2026-02-22 22:30:19,101] [   ERROR] worker.py:92 - Error 
+processing document 34b2bb94-ee09-4cee-a045-78469eac6b3f: 
+Unable to get page count. Is poppler installed and in 
+PATH?
+2026-02-22 22:30:19,101 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+[2026-02-22 22:30:19,101] [    INFO] base.py:2710 - BEGIN 
+(implicit)
+2026-02-22 22:30:19,102 INFO sqlalchemy.engine.Engine UPDATE document SET status=$1::documentstatus, updated_at=$2::TIMESTAMP WITH TIME ZONE WHERE document.id = $3::UUID
+[2026-02-22 22:30:19,102] [    INFO] base.py:1846 - 
+UPDATE document SET status=$1::documentstatus, 
+updated_at=$2::TIMESTAMP WITH TIME ZONE WHERE document.id 
+= $3::UUID
+2026-02-22 22:30:19,102 INFO sqlalchemy.engine.Engine [cached since 0.01237s ago] ('FAILED', datetime.datetime(2026, 2, 22, 17, 30, 19, 102536, tzinfo=datetime.timezone.utc), UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'))
+[2026-02-22 22:30:19,102] [    INFO] base.py:1846 - 
+[cached since 0.01237s ago] ('FAILED', 
+datetime.datetime(2026, 2, 22, 17, 30, 19, 102536, 
+tzinfo=datetime.timezone.utc), 
+UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'))
+2026-02-22 22:30:19,103 INFO sqlalchemy.engine.Engine COMMIT
+[2026-02-22 22:30:19,103] [    INFO] base.py:2716 - COMMIT
+Pipeline completed!
+2026-02-22 22:30:19,105 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+[2026-02-22 22:30:19,105] [    INFO] base.py:2710 - BEGIN 
+(implicit)
+2026-02-22 22:30:19,105 INFO sqlalchemy.engine.Engine SELECT document.id, document.filename, document.original_path, document.mime_type, document.file_size, document.uploader_id, document.status, document.extracted_data, document.confidence_score, document.created_at, document.updated_at 
+FROM document 
+WHERE document.id = $1::UUID
+[2026-02-22 22:30:19,105] [    INFO] base.py:1846 - 
+SELECT document.id, document.filename, 
+document.original_path, document.mime_type, 
+document.file_size, document.uploader_id, 
+document.status, document.extracted_data, 
+document.confidence_score, document.created_at, 
+document.updated_at 
+FROM document 
+WHERE document.id = $1::UUID
+2026-02-22 22:30:19,105 INFO sqlalchemy.engine.Engine [cached since 0.01936s ago] (UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'),)
+[2026-02-22 22:30:19,105] [    INFO] base.py:1846 - 
+[cached since 0.01936s ago] 
+(UUID('34b2bb94-ee09-4cee-a045-78469eac6b3f'),)
+
+Final status: DocumentStatus.FAILED
+Confidence score: None
+2026-02-22 22:30:19,106 INFO sqlalchemy.engine.Engine ROLLBACK
+[2026-02-22 22:30:19,106] [    INFO] base.py:2713 - 
+ROLLBACK

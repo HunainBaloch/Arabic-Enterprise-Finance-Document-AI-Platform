@@ -6,6 +6,7 @@ env/
 __pycache__/
 *.pyc
 .pytest_cache/
+.test-db/
 .coverage
 htmlcov/
 *.log

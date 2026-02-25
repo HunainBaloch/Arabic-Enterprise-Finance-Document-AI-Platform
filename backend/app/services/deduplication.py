@@ -23,6 +23,35 @@ from app.models.document import Document, DocumentStatus
 logger = logging.getLogger(__name__)
 
 
+async def check_hash_duplicate(
+    db: AsyncSession,
+    document: Document
+) -> Optional[Document]:
+    """
+    Pass 1: Searches for a duplicate invoice by exactly matching the 
+    MD5 file_hash against all COMPLETED documents in the database.
+    """
+    if not document.file_hash:
+        return None
+
+    query = select(Document).where(
+        Document.id != document.id,
+        Document.file_hash == document.file_hash,
+        Document.status == DocumentStatus.COMPLETED
+    )
+    result = await db.execute(query)
+    candidate = result.scalars().first()
+    
+    if candidate:
+        logger.warning(
+            f"Pass 1 Duplicate (Hash) detected: document {document.id} matches "
+            f"completed document {candidate.id}"
+        )
+        return candidate
+        
+    return None
+
+
 def compute_document_hash(file_path: str) -> str:
     """
     Computes the MD5 hex digest of a file using 4 KB streaming chunks.
@@ -41,7 +70,7 @@ async def find_duplicate(
     structured_data: Dict[str, Any],
 ) -> Optional[Document]:
     """
-    Searches for a semantically duplicate invoice by matching the
+    Pass 2: Searches for a semantically duplicate invoice by matching the
     (vendor_name, invoice_date, total_amount) triple against all
     COMPLETED documents in the database.
 
@@ -74,7 +103,7 @@ async def find_duplicate(
             and str(llm_out.get("total_amount", "")) == str(total_amount)
         ):
             logger.warning(
-                f"Duplicate detected: document {document.id} matches "
+                f"Pass 2 Duplicate (Semantic) detected: document {document.id} matches "
                 f"completed document {candidate.id}"
             )
             return candidate

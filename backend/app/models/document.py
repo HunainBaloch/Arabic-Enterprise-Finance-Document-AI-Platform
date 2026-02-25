@@ -21,6 +21,7 @@ class Document(Base):
     original_path = Column(String, nullable=False)
     mime_type = Column(String, nullable=False)
     file_size = Column(Float, nullable=False)
+    file_hash = Column(String, index=True, nullable=True) # MD5 hash for Pass 1 deduplication
     uploader_id = Column(UUID(as_uuid=True), ForeignKey("user.id"), nullable=True) # made true for dev
     status = Column(Enum(DocumentStatus), default=DocumentStatus.UPLOADED)
     extracted_data = Column(JSON, nullable=True) # Final approved JSON

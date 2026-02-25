@@ -1,0 +1,1027 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.2.0, pluggy-1.6.0 -- C:\Program Files\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\UAE\Arabic Enterprise Finance Document AI Platform\backend
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.10.0, langsmith-0.4.21, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 34 items
+
+tests/test_api_integration.py::test_root_endpoint PASSED                 [  2%]
+tests/test_api_integration.py::test_health_endpoint PASSED               [  5%]
+tests/test_api_integration.py::test_login_valid FAILED                   [  8%]
+tests/test_api_integration.py::test_login_wrong_password FAILED          [ 11%]
+tests/test_api_integration.py::test_login_nonexistent_user FAILED        [ 14%]
+tests/test_api_integration.py::test_upload_txt_authenticated FAILED      [ 17%]
+tests/test_api_integration.py::test_upload_rejected_without_auth PASSED  [ 20%]
+tests/test_api_integration.py::test_upload_empty_filename_rejected FAILED [ 23%]
+tests/test_api_integration.py::test_list_documents_authenticated FAILED  [ 26%]
+tests/test_api_integration.py::test_list_documents_rejected_without_auth PASSED [ 29%]
+tests/test_api_integration.py::test_list_documents_pagination FAILED     [ 32%]
+tests/test_api_integration.py::test_get_nonexistent_document_returns_404 FAILED [ 35%]
+tests/test_api_integration.py::test_update_nonexistent_document_returns_404 FAILED [ 38%]
+tests/test_api_integration.py::test_erp_sync_nonexistent_document FAILED [ 41%]
+tests/test_api_integration.py::test_erp_sync_unsupported_provider FAILED [ 44%]
+tests/test_api_integration.py::test_export_training_data FAILED          [ 47%]
+tests/test_api_integration.py::test_metrics_endpoint_exposed FAILED      [ 50%]
+tests/test_deduplication.py::test_hash_identical_files PASSED            [ 52%]
+tests/test_deduplication.py::test_hash_different_files_produce_different_digests PASSED [ 55%]
+tests/test_deduplication.py::test_hash_empty_file PASSED                 [ 58%]
+tests/test_deduplication.py::test_hash_large_file_chunks_correctly PASSED [ 61%]
+tests/test_deduplication.py::test_find_duplicate_returns_none_when_no_match PASSED [ 64%]
+tests/test_deduplication.py::test_find_duplicate_returns_existing_document PASSED [ 67%]
+tests/test_deduplication.py::test_find_duplicate_skips_query_when_vendor_missing PASSED [ 70%]
+tests/test_deduplication.py::test_find_duplicate_skips_query_when_date_missing PASSED [ 73%]
+tests/test_deduplication.py::test_find_duplicate_skips_query_when_amount_missing PASSED [ 76%]
+tests/test_deduplication.py::test_find_duplicate_empty_structured_data PASSED [ 79%]
+tests/test_deduplication.py::test_different_content_different_hash_proves_uniqueness PASSED [ 82%]
+tests/test_validation.py::test_vat_inclusive_valid PASSED                [ 85%]
+tests/test_validation.py::test_vat_exclusive_valid PASSED                [ 88%]
+tests/test_validation.py::test_vat_inclusive_rounding_valid PASSED       [ 91%]
+tests/test_validation.py::test_vat_invalid PASSED                        [ 94%]
+tests/test_validation.py::test_vat_invalid_type PASSED                   [ 97%]
+tests/test_validation.py::test_vat_none_values PASSED                    [100%]
+
+================================== FAILURES ===================================
+______________________________ test_login_valid _______________________________
+tests\test_api_integration.py:56: in test_login_valid
+    assert r.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+----------------------------- Captured log setup ------------------------------
+WARNING  passlib.handlers.bcrypt:bcrypt.py:622 (trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\passlib\handlers\bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+              ^^^^^^^^^^^^^^^^^
+AttributeError: module 'bcrypt' has no attribute '__about__'
+__________________________ test_login_wrong_password __________________________
+tests\test_api_integration.py:68: in test_login_wrong_password
+    assert r.status_code == 400
+E   assert 404 == 400
+E    +  where 404 = <Response [404 Not Found]>.status_code
+_________________________ test_login_nonexistent_user _________________________
+tests\test_api_integration.py:78: in test_login_nonexistent_user
+    assert r.status_code == 400
+E   assert 404 == 400
+E    +  where 404 = <Response [404 Not Found]>.status_code
+________________________ test_upload_txt_authenticated ________________________
+tests\test_api_integration.py:90: in test_upload_txt_authenticated
+    test_file.write_text("\u0641\u0627\u062a\u0648\u0631\u0629 \u0636\u0631\u064a\u0628\u064a\u0629\\n\u0627\u0644\u0645\u0648\u0631\u062f: \u0634\u0631\u0643\u0629 \u0627\u0644\u062e\u0644\u064a\u062c\\n\u0627\u0644\u0625\u062c\u0645\u0627\u0644\u064a: 1050 AED\\n\u0636\u0631\u064a\u0628\u0629 \u0627\u0644\u0642\u064a\u0645\u0629 \u0627\u0644\u0645\u0636\u0627\u0641\u0629: 50 AED")
+C:\Program Files\Python313\Lib\pathlib\_local.py:555: in write_text
+    return PathBase.write_text(self, data, encoding, errors, newline)
+C:\Program Files\Python313\Lib\pathlib\_abc.py:652: in write_text
+    return f.write(data)
+C:\Program Files\Python313\Lib\encodings\cp1252.py:19: in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+E   UnicodeEncodeError: 'charmap' codec can't encode characters in position 0-5: character maps to <undefined>
+---------------------------- Captured stderr call -----------------------------
+[33mChecking connectivity to the model hosters, this may take a while. To bypass this check, set `PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK` to `True`.[0m
+INFO: Could not find files for the given pattern(s).
+
+[32mCreating model: ('PP-LCNet_x1_0_doc_ori', None)[0m
+[32mModel files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\Dell\.paddlex\official_models\PP-LCNet_x1_0_doc_ori`.[0m
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+
+I0222 20:47:02.833698 28576 onednn_context.cc:81] oneDNN v3.6.2
+
+[32mCreating model: ('UVDoc', None)[0m
+[32mModel files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\Dell\.paddlex\official_models\UVDoc`.[0m
+[32mCreating model: ('PP-LCNet_x1_0_textline_ori', None)[0m
+[32mModel files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\Dell\.paddlex\official_models\PP-LCNet_x1_0_textline_ori`.[0m
+[32mCreating model: ('PP-OCRv5_server_det', None)[0m
+[32mModel files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\Dell\.paddlex\official_models\PP-OCRv5_server_det`.[0m
+[32mCreating model: ('arabic_PP-OCRv5_mobile_rec', None)[0m
+[32mModel files already exist. Using cached files. To redownload, please delete the directory manually: `C:\Users\Dell\.paddlex\official_models\arabic_PP-OCRv5_mobile_rec`.[0m
+_____________________ test_upload_empty_filename_rejected _____________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:118: in test_upload_empty_filename_rejected
+    r = client.post(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:633: in post
+    return super().post(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1145: in post
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+______________________ test_list_documents_authenticated ______________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:131: in test_list_documents_authenticated
+    r = client.get("/api/v1/documents/")
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:548: in get
+    return super().get(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1054: in get
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+_______________________ test_list_documents_pagination ________________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:143: in test_list_documents_pagination
+    r = client.get("/api/v1/documents/?skip=0&limit=5")
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:548: in get
+    return super().get(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1054: in get
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+__________________ test_get_nonexistent_document_returns_404 __________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:153: in test_get_nonexistent_document_returns_404
+    r = client.get(f"/api/v1/documents/{fake_id}")
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:548: in get
+    return super().get(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1054: in get
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+________________ test_update_nonexistent_document_returns_404 _________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:164: in test_update_nonexistent_document_returns_404
+    r = client.put(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:668: in put
+    return super().put(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1182: in put
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+_____________________ test_erp_sync_nonexistent_document ______________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:181: in test_erp_sync_nonexistent_document
+    r = client.post(f"/api/v1/documents/{fake_id}/sync/odoo")
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:633: in post
+    return super().post(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1145: in post
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+_____________________ test_erp_sync_unsupported_provider ______________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:190: in test_erp_sync_unsupported_provider
+    r = client.post(f"/api/v1/documents/{fake_id}/sync/saprandom")
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:633: in post
+    return super().post(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1145: in post
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+__________________________ test_export_training_data __________________________
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   AttributeError: 'str' object has no attribute 'hex'
+
+The above exception was the direct cause of the following exception:
+tests\test_api_integration.py:200: in test_export_training_data
+    r = client.get("/api/v1/documents/export/training-data")
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:548: in get
+    return super().get(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1054: in get
+    return self.request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:516: in request
+    return super().request(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:827: in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:914: in send
+    response = self._send_handling_auth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:942: in _send_handling_auth
+    response = self._send_handling_redirects(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:979: in _send_handling_redirects
+    response = self._send_single_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\httpx\_client.py:1015: in _send_single_request
+    response = transport.handle_request(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:398: in handle_request
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\testclient.py:395: in handle_request
+    portal.call(self.app, scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:291: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+C:\Program Files\Python313\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\anyio\from_thread.py:222: in _call_func
+    retval = await retval_or_awaitable
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:186: in __call__
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\errors.py:164: in __call__
+    await self.app(scope, receive, _send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\cors.py:85: in __call__
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\middleware\exceptions.py:65: in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:776: in app
+    await route.handle(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:297: in handle
+    await self.app(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:77: in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:64: in wrapped_app
+    raise exc
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\_exception_handler.py:53: in wrapped_app
+    await app(scope, receive, sender)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\starlette\routing.py:72: in app
+    response = await func(request)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\routing.py:269: in app
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:572: in solve_dependencies
+    solved_result = await solve_dependencies(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\fastapi\dependencies\utils.py:600: in solve_dependencies
+    solved = await call(**sub_values)
+app\api\deps.py:30: in get_current_user
+    result = await db.execute(select(User).where(User.id == token_data.sub))
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py:190: in greenlet_spawn
+    result = context.switch(*args, **kwargs)
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py:2249: in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\context.py:306: in orm_execute_statement
+    result = conn.execute(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\sqltypes.py:3734: in process
+    value = value.hex
+E   sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E   [SQL: SELECT user.id, user.email, user.hashed_password, user.full_name, user.is_active, user.is_superuser, user.role, user.created_at 
+E   FROM user 
+E   WHERE user.id = ?]
+E   [parameters: [{}]]
+________________________ test_metrics_endpoint_exposed ________________________
+tests\test_api_integration.py:212: in test_metrics_endpoint_exposed
+    assert r.status_code == 200
+E   assert 404 == 200
+E    +  where 404 = <Response [404 Not Found]>.status_code
+============================== warnings summary ===============================
+app\db\base_class.py:4
+  D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\db\base_class.py:4: MovedIn20Warning: The ``as_declarative()`` function is now available as sqlalchemy.orm.as_declarative() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    @as_declarative()
+
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/test_api_integration.py: 10 warnings
+  D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\core\security.py:20: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expire = datetime.utcnow() + expires_delta
+
+tests/test_api_integration.py::test_upload_txt_authenticated
+  D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\services\ocr.py:12: DeprecationWarning: The parameter `use_angle_cls` has been deprecated and will be removed in the future. Please use `use_textline_orientation` instead.
+    ocr_engine = PaddleOCR(use_angle_cls=True, lang='ar')
+
+tests/test_api_integration.py::test_upload_txt_authenticated
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\setuptools\command\easy_install.py:41: DeprecationWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html
+    import pkg_resources
+
+tests/test_api_integration.py::test_upload_txt_authenticated
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\paddle\utils\cpp_extension\extension_utils.py:712: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+    warnings.warn(warning_message)
+
+tests/test_api_integration.py::test_upload_empty_filename_rejected
+tests/test_api_integration.py::test_list_documents_authenticated
+tests/test_api_integration.py::test_list_documents_pagination
+tests/test_api_integration.py::test_get_nonexistent_document_returns_404
+tests/test_api_integration.py::test_update_nonexistent_document_returns_404
+tests/test_api_integration.py::test_erp_sync_nonexistent_document
+tests/test_api_integration.py::test_erp_sync_unsupported_provider
+tests/test_api_integration.py::test_export_training_data
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\jose\jwt.py:311: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = timegm(datetime.utcnow().utctimetuple())
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_api_integration.py::test_login_valid - assert 404 == 200
+FAILED tests/test_api_integration.py::test_login_wrong_password - assert 404 ...
+FAILED tests/test_api_integration.py::test_login_nonexistent_user - assert 40...
+FAILED tests/test_api_integration.py::test_upload_txt_authenticated - Unicode...
+FAILED tests/test_api_integration.py::test_upload_empty_filename_rejected - s...
+FAILED tests/test_api_integration.py::test_list_documents_authenticated - sql...
+FAILED tests/test_api_integration.py::test_list_documents_pagination - sqlalc...
+FAILED tests/test_api_integration.py::test_get_nonexistent_document_returns_404
+FAILED tests/test_api_integration.py::test_update_nonexistent_document_returns_404
+FAILED tests/test_api_integration.py::test_erp_sync_nonexistent_document - sq...
+FAILED tests/test_api_integration.py::test_erp_sync_unsupported_provider - sq...
+FAILED tests/test_api_integration.py::test_export_training_data - sqlalchemy....
+FAILED tests/test_api_integration.py::test_metrics_endpoint_exposed - assert ...
+============ 13 failed, 21 passed, 23 warnings in 72.19s (0:01:12) ============

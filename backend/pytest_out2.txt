@@ -1,0 +1,262 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.2.0, pluggy-1.6.0 -- C:\Program Files\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\UAE\Arabic Enterprise Finance Document AI Platform\backend
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.10.0, langsmith-0.4.21, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 34 items
+
+tests/test_api_integration.py::test_root_endpoint ERROR                  [  2%]
+tests/test_api_integration.py::test_health_endpoint ERROR                [  5%]
+tests/test_api_integration.py::test_login_valid ERROR                    [  8%]
+tests/test_api_integration.py::test_login_wrong_password ERROR           [ 11%]
+tests/test_api_integration.py::test_login_nonexistent_user ERROR         [ 14%]
+tests/test_api_integration.py::test_upload_txt_authenticated ERROR       [ 17%]
+tests/test_api_integration.py::test_upload_rejected_without_auth ERROR   [ 20%]
+tests/test_api_integration.py::test_upload_empty_filename_rejected ERROR [ 23%]
+tests/test_api_integration.py::test_list_documents_authenticated ERROR   [ 26%]
+tests/test_api_integration.py::test_list_documents_rejected_without_auth ERROR [ 29%]
+tests/test_api_integration.py::test_list_documents_pagination ERROR      [ 32%]
+tests/test_api_integration.py::test_get_nonexistent_document_returns_404 ERROR [ 35%]
+tests/test_api_integration.py::test_update_nonexistent_document_returns_404 ERROR [ 38%]
+tests/test_api_integration.py::test_erp_sync_nonexistent_document ERROR  [ 41%]
+tests/test_api_integration.py::test_erp_sync_unsupported_provider ERROR  [ 44%]
+tests/test_api_integration.py::test_export_training_data ERROR           [ 47%]
+tests/test_api_integration.py::test_metrics_endpoint_exposed ERROR       [ 50%]
+tests/test_deduplication.py::test_hash_identical_files ERROR             [ 52%]
+tests/test_deduplication.py::test_hash_different_files_produce_different_digests ERROR [ 55%]
+tests/test_deduplication.py::test_hash_empty_file ERROR                  [ 58%]
+tests/test_deduplication.py::test_hash_large_file_chunks_correctly ERROR [ 61%]
+tests/test_deduplication.py::test_find_duplicate_returns_none_when_no_match ERROR [ 64%]
+tests/test_deduplication.py::test_find_duplicate_returns_existing_document ERROR [ 67%]
+tests/test_deduplication.py::test_find_duplicate_skips_query_when_vendor_missing ERROR [ 70%]
+tests/test_deduplication.py::test_find_duplicate_skips_query_when_date_missing ERROR [ 73%]
+tests/test_deduplication.py::test_find_duplicate_skips_query_when_amount_missing ERROR [ 76%]
+tests/test_deduplication.py::test_find_duplicate_empty_structured_data ERROR [ 79%]
+tests/test_deduplication.py::test_different_content_different_hash_proves_uniqueness ERROR [ 82%]
+tests/test_validation.py::test_vat_inclusive_valid ERROR                 [ 85%]
+tests/test_validation.py::test_vat_exclusive_valid ERROR                 [ 88%]
+tests/test_validation.py::test_vat_inclusive_rounding_valid ERROR        [ 91%]
+tests/test_validation.py::test_vat_invalid ERROR                         [ 94%]
+tests/test_validation.py::test_vat_invalid_type ERROR                    [ 97%]
+tests/test_validation.py::test_vat_none_values ERROR                     [100%]
+
+=================================== ERRORS ====================================
+____________________ ERROR at setup of test_root_endpoint _____________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+___________________ ERROR at setup of test_health_endpoint ____________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_____________________ ERROR at setup of test_login_valid ______________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________________ ERROR at setup of test_login_wrong_password _________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+________________ ERROR at setup of test_login_nonexistent_user ________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_______________ ERROR at setup of test_upload_txt_authenticated _______________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_____________ ERROR at setup of test_upload_rejected_without_auth _____________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+____________ ERROR at setup of test_upload_empty_filename_rejected ____________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_____________ ERROR at setup of test_list_documents_authenticated _____________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________ ERROR at setup of test_list_documents_rejected_without_auth _________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+______________ ERROR at setup of test_list_documents_pagination _______________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________ ERROR at setup of test_get_nonexistent_document_returns_404 _________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_______ ERROR at setup of test_update_nonexistent_document_returns_404 ________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+____________ ERROR at setup of test_erp_sync_nonexistent_document _____________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+____________ ERROR at setup of test_erp_sync_unsupported_provider _____________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________________ ERROR at setup of test_export_training_data _________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_______________ ERROR at setup of test_metrics_endpoint_exposed _______________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________________ ERROR at setup of test_hash_identical_files _________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+____ ERROR at setup of test_hash_different_files_produce_different_digests ____
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+___________________ ERROR at setup of test_hash_empty_file ____________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+___________ ERROR at setup of test_hash_large_file_chunks_correctly ___________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+______ ERROR at setup of test_find_duplicate_returns_none_when_no_match _______
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_______ ERROR at setup of test_find_duplicate_returns_existing_document _______
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+____ ERROR at setup of test_find_duplicate_skips_query_when_vendor_missing ____
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_____ ERROR at setup of test_find_duplicate_skips_query_when_date_missing _____
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+____ ERROR at setup of test_find_duplicate_skips_query_when_amount_missing ____
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________ ERROR at setup of test_find_duplicate_empty_structured_data _________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+__ ERROR at setup of test_different_content_different_hash_proves_uniqueness __
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________________ ERROR at setup of test_vat_inclusive_valid __________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_________________ ERROR at setup of test_vat_exclusive_valid __________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_____________ ERROR at setup of test_vat_inclusive_rounding_valid _____________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+_____________________ ERROR at setup of test_vat_invalid ______________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+___________________ ERROR at setup of test_vat_invalid_type ___________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+___________________ ERROR at setup of test_vat_none_values ____________________
+ScopeMismatch: You tried to access the function scoped fixture _function_scoped_runner with a session scoped request object. Requesting fixture stack:
+tests\conftest.py:56:  def create_tables()
+Requested fixture:
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pytest_asyncio\plugin.py:795:  def _scoped_runner(event_loop_policy, request: 'FixtureRequest') -> 'Iterator[Runner]'
+============================== warnings summary ===============================
+app\db\base_class.py:4
+  D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\db\base_class.py:4: MovedIn20Warning: The ``as_declarative()`` function is now available as sqlalchemy.orm.as_declarative() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    @as_declarative()
+
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR tests/test_api_integration.py::test_root_endpoint - Failed: ScopeMismat...
+ERROR tests/test_api_integration.py::test_health_endpoint - Failed: ScopeMism...
+ERROR tests/test_api_integration.py::test_login_valid - Failed: ScopeMismatch...
+ERROR tests/test_api_integration.py::test_login_wrong_password - Failed: Scop...
+ERROR tests/test_api_integration.py::test_login_nonexistent_user - Failed: Sc...
+ERROR tests/test_api_integration.py::test_upload_txt_authenticated - Failed: ...
+ERROR tests/test_api_integration.py::test_upload_rejected_without_auth - Fail...
+ERROR tests/test_api_integration.py::test_upload_empty_filename_rejected - Fa...
+ERROR tests/test_api_integration.py::test_list_documents_authenticated - Fail...
+ERROR tests/test_api_integration.py::test_list_documents_rejected_without_auth
+ERROR tests/test_api_integration.py::test_list_documents_pagination - Failed:...
+ERROR tests/test_api_integration.py::test_get_nonexistent_document_returns_404
+ERROR tests/test_api_integration.py::test_update_nonexistent_document_returns_404
+ERROR tests/test_api_integration.py::test_erp_sync_nonexistent_document - Fai...
+ERROR tests/test_api_integration.py::test_erp_sync_unsupported_provider - Fai...
+ERROR tests/test_api_integration.py::test_export_training_data - Failed: Scop...
+ERROR tests/test_api_integration.py::test_metrics_endpoint_exposed - Failed: ...
+ERROR tests/test_deduplication.py::test_hash_identical_files - Failed: ScopeM...
+ERROR tests/test_deduplication.py::test_hash_different_files_produce_different_digests
+ERROR tests/test_deduplication.py::test_hash_empty_file - Failed: ScopeMismat...
+ERROR tests/test_deduplication.py::test_hash_large_file_chunks_correctly - Fa...
+ERROR tests/test_deduplication.py::test_find_duplicate_returns_none_when_no_match
+ERROR tests/test_deduplication.py::test_find_duplicate_returns_existing_document
+ERROR tests/test_deduplication.py::test_find_duplicate_skips_query_when_vendor_missing
+ERROR tests/test_deduplication.py::test_find_duplicate_skips_query_when_date_missing
+ERROR tests/test_deduplication.py::test_find_duplicate_skips_query_when_amount_missing
+ERROR tests/test_deduplication.py::test_find_duplicate_empty_structured_data
+ERROR tests/test_deduplication.py::test_different_content_different_hash_proves_uniqueness
+ERROR tests/test_validation.py::test_vat_inclusive_valid - Failed: ScopeMisma...
+ERROR tests/test_validation.py::test_vat_exclusive_valid - Failed: ScopeMisma...
+ERROR tests/test_validation.py::test_vat_inclusive_rounding_valid - Failed: S...
+ERROR tests/test_validation.py::test_vat_invalid - Failed: ScopeMismatch: You...
+ERROR tests/test_validation.py::test_vat_invalid_type - Failed: ScopeMismatch...
+ERROR tests/test_validation.py::test_vat_none_values - Failed: ScopeMismatch:...
+======================= 2 warnings, 34 errors in 0.39s ========================

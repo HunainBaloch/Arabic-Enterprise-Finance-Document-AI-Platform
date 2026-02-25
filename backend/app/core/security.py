@@ -3,6 +3,9 @@ from typing import Optional
 from jose import jwt
 from passlib.context import CryptContext
 from app.core.config import settings
+import bcrypt
+if not hasattr(bcrypt, "__about__"):
+    bcrypt.__about__ = type("about", (), {"__version__": bcrypt.__version__})
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

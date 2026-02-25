@@ -1,5 +1,6 @@
 import os
 import shutil
+import uuid
 from fastapi import APIRouter, Depends, UploadFile, File, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
@@ -36,23 +37,28 @@ async def upload_document(
     file_size = os.path.getsize(file_path)
     mime = file.content_type or "application/octet-stream"
 
+    # Compute MD5 hash for Pass 1 deduplication
+    from app.services.deduplication import compute_document_hash
+    file_hash = compute_document_hash(file_path)
+
     # Create DB Record
     db_document = Document(
         filename=file.filename,
         original_path=file_path,
         mime_type=mime,
         file_size=file_size,
+        file_hash=file_hash,
         status=DocumentStatus.PREPROCESSING
     )
     
     db.add(db_document)
     await db.commit()
     await db.refresh(db_document)
-    
+
     # Trigger background Celery task
     from app.worker import process_document
     process_document.delay(str(db_document.id))
-    
+
     return db_document
 
 @router.get("/", response_model=List[DocumentResponse])
@@ -75,7 +81,7 @@ async def get_document(
     current_user: User = Depends(get_current_user)
 ):
     from sqlalchemy.future import select
-    result = await db.execute(select(Document).where(Document.id == document_id))
+    result = await db.execute(select(Document).where(Document.id == uuid.UUID(document_id)))
     document = result.scalar_one_or_none()
     if not document:
         raise HTTPException(status_code=404, detail="Document not found")
@@ -90,7 +96,7 @@ async def get_document_file(
     from sqlalchemy.future import select
     from fastapi.responses import FileResponse
     
-    result = await db.execute(select(Document).where(Document.id == document_id))
+    result = await db.execute(select(Document).where(Document.id == uuid.UUID(document_id)))
     document = result.scalar_one_or_none()
     
     if not document or not os.path.exists(document.original_path):
@@ -106,7 +112,7 @@ async def update_document(
     current_user: User = Depends(get_current_active_reviewer)
 ):
     from sqlalchemy.future import select
-    result = await db.execute(select(Document).where(Document.id == document_id))
+    result = await db.execute(select(Document).where(Document.id == uuid.UUID(document_id)))
     document = result.scalar_one_or_none()
     
     if not document:
@@ -141,7 +147,7 @@ async def sync_to_erp(
     from sqlalchemy.future import select
     from app.services.erp.factory import get_erp_connector
     
-    result = await db.execute(select(Document).where(Document.id == document_id))
+    result = await db.execute(select(Document).where(Document.id == uuid.UUID(document_id)))
     document = result.scalar_one_or_none()
     
     if not document:

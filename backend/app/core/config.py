@@ -8,11 +8,11 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "4a76c560dc27879636d15d9d5a92f568f4ef1bfdddf73e337292a3964922328" # Default for dev
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7 # 7 days
     
-    # DB
+    # DB (defaults for local runs; override with .env for Docker)
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
     POSTGRES_DB: str = "idp_db"
-    POSTGRES_HOST: str = "db"
+    POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: str = "5432"
 
     @property
@@ -31,8 +31,11 @@ class Settings(BaseSettings):
     PADDLEOCR_LANG: str = "en,ar"
     PADDLEOCR_USE_GPU: bool = False
 
+    # File uploads (relative to backend/ or absolute)
+    UPLOAD_DIR: str = "uploads"
+
     model_config = {
-        "env_file": ".env",
+        "env_file": (".env", "../.env"),  # backend/.env or project root .env
         "case_sensitive": True,
         "extra": "ignore"
     }

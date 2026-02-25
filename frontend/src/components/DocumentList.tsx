@@ -4,8 +4,9 @@ import { Document } from "@/lib/api";
 
 export default function DocumentList({ documents }: { documents: Document[] }) {
     const getStatusIcon = (status: string) => {
-        if (status === "COMPLETED") return <CheckCircle className="text-green-500 w-5 h-5" />;
-        if (status === "HITL_REVIEW") return <AlertTriangle className="text-yellow-500 w-5 h-5" />;
+        const s = status.toUpperCase();
+        if (s === "COMPLETED") return <CheckCircle className="text-green-500 w-5 h-5" />;
+        if (s === "HITL_REVIEW") return <AlertTriangle className="text-yellow-500 w-5 h-5" />;
         return <Clock className="text-gray-500 w-5 h-5" />;
     };
 
@@ -43,7 +44,7 @@ export default function DocumentList({ documents }: { documents: Document[] }) {
                                     href={`/review/${doc.id}`}
                                     className="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors font-medium text-sm"
                                 >
-                                    {doc.status === "HITL_REVIEW" ? "Review Required" : "View Details"}
+                                    {doc.status.toUpperCase() === "HITL_REVIEW" ? "Review Required" : "View Details"}
                                 </Link>
                             </td>
                         </tr>

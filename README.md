@@ -8,7 +8,7 @@ An open-source, full-stack Human-in-the-Loop (HITL) AI platform designed specifi
 
 ## 🌟 Key Features
 
-*   **Bilingual OCR Engine:** Seamlessly extracts text and figures from documents blending Arabic and English using PaddleOCR.
+*   **Bilingual OCR Engine:** Seamlessly extracts text and figures from documents blending Arabic and English using **Tesseract OCR / pyTesseract** combined with PyMuPDF for high-speed, CPU-optimized processing.
 *   **Specialized Arabic NER:** Utilizes a custom fine-tuned **AraBERT** model (F1: 1.00) to precisely identify UAE-specific entities: `VENDOR`, `TRN`, `DATE`, `TOTAL`, and `VAT`.
 *   **VAT Rule Validation Engine:** Automatically applies UAE 5% VAT mathematical validations (with configurable rounding tolerances).
 *   **Duplicate Detection:** Avoids duplicate invoices via robust MD5 hardware hashing combined with fuzzy AI field-matching.
@@ -31,8 +31,9 @@ An open-source, full-stack Human-in-the-Loop (HITL) AI platform designed specifi
 ## 🚀 Quick Start (Docker Compose)
 
 ### 1. Prerequisites
-*   Docker & Docker Compose
-*   (Optional but recommended) NVIDIA GPU with latest drivers for faster NER inference
+*   Docker & Docker Compose (or native Python 3.11 with Node.js)
+*   **Tesseract OCR** system binary installed (with Arabic language packs: `tesseract-ocr-ara`)
+*   (Optional but recommended) NVIDIA GPU with latest drivers for faster AraBERT NER inference
 
 ### 2. Startup Script
 A fully automated PowerShell startup script is provided for Windows developers:

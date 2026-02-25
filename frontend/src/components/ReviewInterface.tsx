@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Document, updateDocumentStatus } from "@/lib/api";
+import { useEffect, useState } from "react";
+import { Document, updateDocumentStatus, api } from "@/lib/api";
 import { AlertCircle, Check, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -19,6 +19,31 @@ export default function ReviewInterface({ document }: { document: Document }) {
         vat_amount: initialData.vat_amount || "",
     });
 
+    const [fileUrl, setFileUrl] = useState<string | null>(null);
+    const [isFetchingFile, setIsFetchingFile] = useState(false);
+
+    useEffect(() => {
+        const fetchFile = async () => {
+            setIsFetchingFile(true);
+            try {
+                const response = await api.get(`documents/${document.id}/file`, {
+                    responseType: 'blob'
+                });
+                const url = URL.createObjectURL(response.data);
+                setFileUrl(url);
+            } catch (error) {
+                console.error("Failed to fetch document file", error);
+            } finally {
+                setIsFetchingFile(false);
+            }
+        };
+
+        fetchFile();
+        return () => {
+            if (fileUrl) URL.revokeObjectURL(fileUrl);
+        };
+    }, [document.id]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -34,8 +59,7 @@ export default function ReviewInterface({ document }: { document: Document }) {
             };
 
             await updateDocumentStatus(document.id, "COMPLETED", updatedData);
-            router.push("/");
-            router.refresh();
+            window.location.href = "/";
         } catch (error) {
             console.error("Failed to approve document", error);
             alert("Failed to submit approval.");
@@ -56,18 +80,30 @@ export default function ReviewInterface({ document }: { document: Document }) {
                     <span className="text-gray-400 font-mono text-xs">{document.filename}</span>
                 </div>
                 <div className="flex-1 overflow-auto p-4 flex items-center justify-center bg-gray-50/50 relative">
-                    {document.mime_type === "application/pdf" ? (
-                        <embed
-                            src={`http://localhost:8000/api/v1/documents/${document.id}/file`}
-                            type="application/pdf"
-                            className="w-full h-full rounded shadow-sm"
-                        />
+                    {isFetchingFile ? (
+                        <div className="flex flex-col items-center gap-2">
+                            <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+                            <p className="text-xs text-gray-400">Loading file...</p>
+                        </div>
+                    ) : fileUrl ? (
+                        document.mime_type === "application/pdf" ? (
+                            <embed
+                                src={fileUrl}
+                                type="application/pdf"
+                                className="w-full h-full rounded shadow-sm"
+                            />
+                        ) : (
+                            <img
+                                src={fileUrl}
+                                alt="Document Scan"
+                                className="max-w-full max-h-full object-contain rounded shadow-sm"
+                            />
+                        )
                     ) : (
-                        <img
-                            src={`http://localhost:8000/api/v1/documents/${document.id}/file`}
-                            alt="Document Scan"
-                            className="max-w-full max-h-full object-contain rounded shadow-sm"
-                        />
+                        <div className="text-center p-6">
+                            <AlertCircle className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                            <p className="text-sm text-gray-400">Could not load document file</p>
+                        </div>
                     )}
                 </div>
             </div>

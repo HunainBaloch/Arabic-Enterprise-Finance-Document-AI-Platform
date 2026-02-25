@@ -36,14 +36,22 @@ def get_ner_pipeline():
     global ner_pipeline
     if ner_pipeline is None:
         try:
-            logger.info(f"Loading NER pipeline from: {_MODEL_PATH} (fine-tuned={_IS_FINETUNED})")
-            ner_pipeline = pipeline(
-                "ner",
-                model=_MODEL_PATH,
-                tokenizer=_MODEL_PATH,
-                aggregation_strategy="simple",
-                device=-1,  # CPU; switch to 0 for first GPU
-            )
+            import torch
+            device = 0 if torch.cuda.is_available() else -1
+            logger.info(f"Loading NER pipeline from: {_MODEL_PATH} (fine-tuned={_IS_FINETUNED}) on device={device}")
+            
+            # Use FP16 if on GPU to speed up processing + reduce VRAM
+            pipeline_kwargs = {
+                "task": "ner",
+                "model": _MODEL_PATH,
+                "tokenizer": _MODEL_PATH,
+                "aggregation_strategy": "simple",
+                "device": device,
+            }
+            if device == 0:
+                pipeline_kwargs["torch_dtype"] = torch.float16
+                
+            ner_pipeline = pipeline(**pipeline_kwargs)
             logger.info("NER pipeline loaded successfully.")
         except Exception as e:
             logger.warning(

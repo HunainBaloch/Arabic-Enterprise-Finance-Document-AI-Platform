@@ -1,0 +1,76 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-8.2.0, pluggy-1.6.0 -- C:\Program Files\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\UAE\Arabic Enterprise Finance Document AI Platform\backend
+configfile: pytest.ini
+plugins: anyio-4.10.0, langsmith-0.4.21, asyncio-1.3.0
+asyncio: mode=Mode.AUTO, debug=False, asyncio_default_fixture_loop_scope=function, asyncio_default_test_loop_scope=function
+collecting ... collected 5 items
+
+tests/test_workflow_e2e.py::test_successful_document_processing FAILED   [ 20%]
+tests/test_workflow_e2e.py::test_low_confidence_routes_to_hitl FAILED    [ 40%]
+tests/test_workflow_e2e.py::test_worker_catches_exception_and_fails_document FAILED [ 60%]
+tests/test_workflow_e2e.py::test_invalid_upload_no_file PASSED           [ 80%]
+tests/test_workflow_e2e.py::test_duplicate_document_detection FAILED     [100%]
+
+================================== FAILURES ===================================
+_____________________ test_successful_document_processing _____________________
+tests\test_workflow_e2e.py:30: in test_successful_document_processing
+    patch('app.api.endpoints.documents.process_document.delay') as mock_celery_delay:
+C:\Program Files\Python313\Lib\unittest\mock.py:1479: in __enter__
+    self.target = self.getter()
+C:\Program Files\Python313\Lib\pkgutil.py:528: in resolve_name
+    result = getattr(result, p)
+E   AttributeError: module 'app.api.endpoints.documents' has no attribute 'process_document'
+_____________________ test_low_confidence_routes_to_hitl ______________________
+tests\test_workflow_e2e.py:77: in test_low_confidence_routes_to_hitl
+    patch('app.api.endpoints.documents.process_document.delay'):
+C:\Program Files\Python313\Lib\unittest\mock.py:1479: in __enter__
+    self.target = self.getter()
+C:\Program Files\Python313\Lib\pkgutil.py:528: in resolve_name
+    result = getattr(result, p)
+E   AttributeError: module 'app.api.endpoints.documents' has no attribute 'process_document'
+______________ test_worker_catches_exception_and_fails_document _______________
+tests\test_workflow_e2e.py:102: in test_worker_catches_exception_and_fails_document
+    patch('app.api.endpoints.documents.process_document.delay'):
+C:\Program Files\Python313\Lib\unittest\mock.py:1479: in __enter__
+    self.target = self.getter()
+C:\Program Files\Python313\Lib\pkgutil.py:528: in resolve_name
+    result = getattr(result, p)
+E   AttributeError: module 'app.api.endpoints.documents' has no attribute 'process_document'
+______________________ test_duplicate_document_detection ______________________
+tests\test_workflow_e2e.py:129: in test_duplicate_document_detection
+    patch('app.api.endpoints.documents.process_document.delay'):
+C:\Program Files\Python313\Lib\unittest\mock.py:1479: in __enter__
+    self.target = self.getter()
+C:\Program Files\Python313\Lib\pkgutil.py:528: in resolve_name
+    result = getattr(result, p)
+E   AttributeError: module 'app.api.endpoints.documents' has no attribute 'process_document'
+============================== warnings summary ===============================
+app\db\base_class.py:4
+  D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\db\base_class.py:4: MovedIn20Warning: The ``as_declarative()`` function is now available as sqlalchemy.orm.as_declarative() (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+    @as_declarative()
+
+C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\pydantic\_internal\_config.py:323: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.11/migration/
+    warnings.warn(DEPRECATION_MESSAGE, DeprecationWarning)
+
+tests/test_workflow_e2e.py::test_successful_document_processing
+tests/test_workflow_e2e.py::test_low_confidence_routes_to_hitl
+tests/test_workflow_e2e.py::test_worker_catches_exception_and_fails_document
+tests/test_workflow_e2e.py::test_invalid_upload_no_file
+tests/test_workflow_e2e.py::test_duplicate_document_detection
+  D:\UAE\Arabic Enterprise Finance Document AI Platform\backend\app\core\security.py:23: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    expire = datetime.utcnow() + expires_delta
+
+tests/test_workflow_e2e.py::test_invalid_upload_no_file
+  C:\Users\Dell\AppData\Roaming\Python\Python313\site-packages\jose\jwt.py:311: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    now = timegm(datetime.utcnow().utctimetuple())
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_workflow_e2e.py::test_successful_document_processing - Attr...
+FAILED tests/test_workflow_e2e.py::test_low_confidence_routes_to_hitl - Attri...
+FAILED tests/test_workflow_e2e.py::test_worker_catches_exception_and_fails_document
+FAILED tests/test_workflow_e2e.py::test_duplicate_document_detection - Attrib...
+================== 4 failed, 1 passed, 8 warnings in 34.51s ===================

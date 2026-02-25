@@ -49,7 +49,7 @@ def test_login_valid(client: TestClient):
     """Verify that a correct login returns a JWT token."""
     # POST to the token endpoint using form data
     r = client.post(
-        "/api/v1/auth/login/access-token",
+        "/api/v1/login/access-token",
         data={"username": "reviewer@test.com", "password": "TestPass123!"},
         headers={"Content-Type": "application/x-www-form-urlencoded"},
     )
@@ -61,7 +61,7 @@ def test_login_valid(client: TestClient):
 
 def test_login_wrong_password(anon_client: TestClient):
     r = anon_client.post(
-        "/api/v1/auth/login/access-token",
+        "/api/v1/login/access-token",
         data={"username": "reviewer@test.com", "password": "WRONG"},
         headers={"Content-Type": "application/x-www-form-urlencoded"},
     )
@@ -71,7 +71,7 @@ def test_login_wrong_password(anon_client: TestClient):
 
 def test_login_nonexistent_user(anon_client: TestClient):
     r = anon_client.post(
-        "/api/v1/auth/login/access-token",
+        "/api/v1/login/access-token",
         data={"username": "ghost@test.com", "password": "anything"},
         headers={"Content-Type": "application/x-www-form-urlencoded"},
     )
@@ -87,7 +87,7 @@ def test_login_nonexistent_user(anon_client: TestClient):
 def test_upload_txt_authenticated(mock_ocr, mock_delay, client: TestClient, tmp_path):
     """Authenticated reviewer can upload a valid text file."""
     test_file = tmp_path / "invoice.txt"
-    test_file.write_text("فاتورة ضريبية\nالمورد: شركة الخليج\nالإجمالي: 1050 AED\nضريبة القيمة المضافة: 50 AED")
+    test_file.write_text("فاتورة ضريبية\nالمورد: شركة الخليج\nالإجمالي: 1050 AED\nضريبة القيمة المضافة: 50 AED", encoding="utf-8")
 
     with open(test_file, "rb") as f:
         r = client.post(
