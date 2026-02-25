@@ -31,8 +31,12 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
+      - name: Clean up old Docker images
+        run: |
+          docker image prune -af
+          docker builder prune -af
       - name: Build Docker Image
         run: |
-          docker-compose -f docker-compose.prod.yml build
+          docker compose -f docker-compose.prod.yml build
       # Add steps here to configure AWS ECR / Azure Container Registry credentials 
       # and push the built images for the backend, worker, and frontend.
